@@ -58,4 +58,52 @@ class ReservationServiceTest {
         List<Reservation> reservations = reservationService.getAllReservations();
         assertEquals(2, reservations.size(), "There should be 2 reservations at total");
     }
+
+
+
+
+    @Test
+    void testAddReservation_Fail_PastDate() {
+        boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2023, 3, 10, 14, 0), "Room101");
+        assertFalse(result, "Geçmiş bir tarihe rezervasyon yapılamamalı.");
+    }
+
+    @Test
+    void testAddReservation_SameUser_DifferentRooms_Successful() {
+        boolean result1 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
+        boolean result2 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room102");
+
+        assertTrue(result1, "İlk rezervasyon eklenmeli.");
+        assertTrue(result2, "Aynı kullanıcı farklı odada rezervasyon yapabilmeli.");
+    }
+
+    @Test
+    void testMaxReservationsPerRoom() {
+        reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 10, 0), "Room101");
+        reservationService.addReservation("Veli", LocalDateTime.of(2025, 3, 15, 12, 0), "Room101");
+        reservationService.addReservation("Ayşe", LocalDateTime.of(2025, 3, 15, 14, 0), "Room101");
+
+        boolean result = reservationService.addReservation("Fatma", LocalDateTime.of(2025, 3, 15, 16, 0), "Room101");
+
+        assertFalse(result, "Aynı gün içinde belirlenen maksimum rezervasyon sayısını aşmamalı.");
+    }
+
+    @Test
+    void testAddReservation_Fail_BackToBackSameUser() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 14, 0), "Room101");
+        boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 15, 0), "Room101");
+
+        assertFalse(result, "Aynı kullanıcı arka arkaya aynı odaya rezervasyon yapamamalı.");
+    }
+
+    @Test
+    void testAddReservation_Success_DifferentHours() {
+        boolean result1 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 10, 0), "Room101");
+        boolean result2 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 14, 0), "Room101");
+
+        assertTrue(result1, "İlk rezervasyon eklenmeli.");
+        assertTrue(result2, "Aynı gün içinde farklı saatlerde rezervasyon yapılabilmeli.");
+    }
+
+
 }
