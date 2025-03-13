@@ -1,109 +1,143 @@
 package com.example.reservation;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReservationServiceTest {
-    private ReservationService reservationService;
+public class ReservationServiceTest {
 
-    @BeforeEach
-    void setUp() {
-        reservationService = new ReservationService();
-    }
+    ReservationService reservationService = new ReservationService();
 
     @Test
-    void testAddReservation_Successful() {
-        boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room01");
-        assertTrue(result, "Reservation must be added successfully.");
+    void testAddReservation_Success() {
+        boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        assertTrue(result, "Rezervasyon başarılı olmalı.");
     }
-
-    @Test
-    void testAddReservation_Fail_DueToConflict() {
-        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        boolean result = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        assertFalse(result, "Conflicting reservation must not added.");
-    }
-
-    @Test
-    void testAddReservation_DifferentRooms_Successful() {
-        boolean result1 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        boolean result2 = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "Room102");
-
-        assertTrue(result1, "First reservation must be added.");
-        assertTrue(result2, "Second reservation must be added as well as it's room number is different");
-    }
-
-    @Test
-    void testCancelReservation_Successful() {
-        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        boolean result = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        assertTrue(result, "Reservation must be canceled successfully.");
-    }
-
-    @Test
-    void testCancelReservation_Fail_NotFound() {
-        boolean result = reservationService.cancelReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        assertFalse(result, "A reservation that cannot be found cannot be cancelled.");
-    }
-
-    @Test
-    void testGetAllReservations() {
-        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 20, 0), "Room102");
-        List<Reservation> reservations = reservationService.getAllReservations();
-        assertEquals(2, reservations.size(), "There should be 2 reservations at total");
-    }
-
-
-
 
     @Test
     void testAddReservation_Fail_PastDate() {
         boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2023, 3, 10, 14, 0), "Room101");
-        assertFalse(result, "Geçmiş bir tarihe rezervasyon yapılamamalı.");
+        assertFalse(result, "Geçmiş tarihe rezervasyon yapılamamalı.");
     }
 
     @Test
-    void testAddReservation_SameUser_DifferentRooms_Successful() {
-        boolean result1 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room101");
-        boolean result2 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Room102");
+    void testAddReservation_Duplicate() {
+        reservationService.addReservation("Ali", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        boolean result = reservationService.addReservation("Veli", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        assertFalse(result, "Aynı tarih ve saatte oda başkasına rezerve edilememeli.");
+    }
 
-        assertTrue(result1, "İlk rezervasyon eklenmeli.");
-        assertTrue(result2, "Aynı kullanıcı farklı odada rezervasyon yapabilmeli.");
+    @Test
+    void testCancelReservation_Success() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        boolean result = reservationService.cancelReservation("Ayberk", "Room101");
+        assertTrue(result, "Rezervasyon iptal edilebilmeli.");
+    }
+
+    @Test
+    void testCancelReservation_Fail_NotExists() {
+        boolean result = reservationService.cancelReservation("Ali", "Room101");
+        assertFalse(result, "Var olmayan rezervasyon iptal edilememeli.");
+    }
+
+    @Test
+    void testFindReservation_Success() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        Reservation reservation = reservationService.findReservation("Ayberk", "Room101");
+        assertNotNull(reservation, "Rezervasyon bulunmalı.");
+    }
+
+    @Test
+    void testFindReservation_Fail_NotExists() {
+        Reservation reservation = reservationService.findReservation("Ali", "Room102");
+        assertNull(reservation, "Rezervasyon bulunmamalı.");
     }
 
     @Test
     void testMaxReservationsPerRoom() {
-        reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 10, 0), "Room101");
-        reservationService.addReservation("Veli", LocalDateTime.of(2025, 3, 15, 12, 0), "Room101");
-        reservationService.addReservation("Ayşe", LocalDateTime.of(2025, 3, 15, 14, 0), "Room101");
+        reservationService.addReservation("Ali", LocalDateTime.of(2025, 5, 20, 10, 0), "Room101");
+        reservationService.addReservation("Veli", LocalDateTime.of(2025, 5, 20, 12, 0), "Room101");
+        reservationService.addReservation("Ayşe", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
 
-        boolean result = reservationService.addReservation("Fatma", LocalDateTime.of(2025, 3, 15, 16, 0), "Room101");
-
-        assertFalse(result, "Aynı gün içinde belirlenen maksimum rezervasyon sayısını aşmamalı.");
+        boolean result = reservationService.addReservation("Fatma", LocalDateTime.of(2025, 5, 20, 16, 0), "Room101");
+        assertFalse(result, "Oda kapasitesi aşılamamalı.");
     }
 
     @Test
-    void testAddReservation_Fail_BackToBackSameUser() {
-        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 14, 0), "Room101");
-        boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 15, 0), "Room101");
+    void testDifferentUsers_SameRoom_DifferentTimes() {
+        boolean result1 = reservationService.addReservation("Ali", LocalDateTime.of(2025, 5, 20, 10, 0), "Room101");
+        boolean result2 = reservationService.addReservation("Veli", LocalDateTime.of(2025, 5, 20, 12, 0), "Room101");
 
-        assertFalse(result, "Aynı kullanıcı arka arkaya aynı odaya rezervasyon yapamamalı.");
+        assertTrue(result1, "İlk rezervasyon başarılı olmalı.");
+        assertTrue(result2, "Farklı saatlerde rezervasyon yapılabilmeli.");
     }
 
     @Test
-    void testAddReservation_Success_DifferentHours() {
-        boolean result1 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 10, 0), "Room101");
-        boolean result2 = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 14, 0), "Room101");
+    void testUserCannotBookSameRoomBackToBack() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        boolean result = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 15, 0), "Room101");
 
-        assertTrue(result1, "İlk rezervasyon eklenmeli.");
-        assertTrue(result2, "Aynı gün içinde farklı saatlerde rezervasyon yapılabilmeli.");
+        assertFalse(result, "Aynı kullanıcı arka arkaya rezervasyon yapamamalı.");
     }
 
+    @Test
+    void testAddReservation_ThrowsException_WhenDateNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            reservationService.addReservation("Ayberk", null, "Room101");
+        });
+        assertEquals("Tarih bilgisi zorunludur.", exception.getMessage());
+    }
 
+    @Test
+    void testAddReservation_ThrowsException_WhenRoomNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), null);
+        });
+        assertEquals("Oda bilgisi zorunludur.", exception.getMessage());
+    }
+
+    @Test
+    void testCancelReservation_ThrowsException_WhenUserNull() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            reservationService.cancelReservation(null, LocalDateTime.of(2025, 5, 20, 14, 0),"Room101");
+        });
+        assertEquals("Kullanıcı adı boş olamaz.", exception.getMessage());
+    }
+
+    @Test
+    void testReservationListNotEmptyAfterAdding() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        assertFalse(reservationService.getAllReservations().isEmpty(), "Rezervasyon listesi boş olmamalı.");
+    }
+
+    @Test
+    void testReservationListEmptyInitially() {
+        assertTrue(reservationService.getAllReservations().isEmpty(), "İlk başta rezervasyon listesi boş olmalı.");
+    }
+
+    @Test
+    void testReservationCount_AfterMultipleBookings() {
+        reservationService.addReservation("Ali", LocalDateTime.of(2025, 5, 20, 10, 0), "Room101");
+        reservationService.addReservation("Veli", LocalDateTime.of(2025, 5, 20, 12, 0), "Room101");
+
+        assertEquals(2, reservationService.getAllReservations().size(), "Toplam rezervasyon sayısı 2 olmalı.");
+    }
+
+    @Test
+    void testReservationContainsCorrectUser() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        Reservation reservation = reservationService.findReservation("Ayberk", "Room101");
+
+        assertEquals("Ayberk", reservation.getCustomerName(), "Rezervasyonu yapan kullanıcı doğru olmalı.");
+    }
+
+    @Test
+    void testReservationContainsCorrectRoom() {
+        reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
+        Reservation reservation = reservationService.findReservation("Ayberk", "Room101");
+
+        assertEquals("Room101", reservation.getroomNumber(), "Rezervasyonun yapıldığı oda doğru olmalı.");
+    }
 }

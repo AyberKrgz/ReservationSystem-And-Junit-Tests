@@ -28,6 +28,16 @@ public class ReservationService {
 
     }
 
+    public Reservation findReservation(String name, String room) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getCustomerName().equals(name) && reservation.getroomNumber().equals(room)) {
+                return reservation;
+            }
+        }
+        return null; // Rezervasyon bulunamazsa null döndür.
+    }
+
+
     public List<Reservation> getAllReservations() { return new ArrayList<>(reservations); }
 
 }
