@@ -19,22 +19,6 @@ public class Reservation {
     public LocalDateTime getDateTime() { return dateTime; }
     public String getroomNumber() { return roomNumber; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reservation that = (Reservation) o;
-        return Objects.equals(customerName, that.customerName) &&
-                Objects.equals(dateTime, that.dateTime) &&
-                Objects.equals(roomNumber, that.roomNumber);
-    }
-
-    //Not used yet. Might be useful in the future.
-    @Override
-    public int hashCode() {
-        return Objects.hash(customerName, dateTime, roomNumber);
-    }
-
     //toString func to print reservations as we want.
     @Override
     public String toString() {
