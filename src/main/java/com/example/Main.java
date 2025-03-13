@@ -10,25 +10,25 @@ public class Main {
 
         //Adding new reservations
         boolean added = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
-        System.out.println("Rezervasyon eklendi mi? ");
+        System.out.println("Are reservations added successfully? ");
         System.out.println(added);
 
         //Trying to add a conflicting reservation
         boolean conflict = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
-        System.out.println("Çakışan rezervasyon eklendi mi? ");
+        System.out.println("Are conflicting reservations added? ");
         System.out.println(conflict);
 
         //Listing reservations
-        System.out.println("Mevcut rezervasyonlar: ");
+        System.out.println("Existing reservations: ");
         System.out.println(reservationService.getAllReservations());
 
         //Canceling reservation
         boolean cancelled = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
-        System.out.println("Rezervasyon iptal edildi mi? ");
+        System.out.println("Did reservations canceled? ");
         System.out.println(cancelled);
 
         //Listing reservations again
-        System.out.println("Son rezervasyon listesi: ");
+        System.out.println("Last reservation list: ");
         System.out.println(reservationService.getAllReservations());
     }
 }
