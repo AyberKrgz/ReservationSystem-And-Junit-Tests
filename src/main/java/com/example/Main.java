@@ -10,12 +10,12 @@ public class Main {
 
         //Adding new reservations
         boolean added = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
-        System.out.println("Are reservations added successfully? ");
+        System.out.println("Were reservations added successfully? ");
         System.out.println(added);
 
         //Trying to add a conflicting reservation
         boolean conflict = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
-        System.out.println("Are conflicting reservations added? ");
+        System.out.println("Were conflicting reservations added? ");
         System.out.println(conflict);
 
         //Listing reservations
@@ -24,7 +24,7 @@ public class Main {
 
         //Canceling reservation
         boolean cancelled = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
-        System.out.println("Did reservations canceled? ");
+        System.out.println("Were reservations canceled? ");
         System.out.println(cancelled);
 
         //Listing reservations again
