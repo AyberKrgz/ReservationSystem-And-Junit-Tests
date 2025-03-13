@@ -32,13 +32,13 @@ public class ReservationServiceTest {
     @Test
     void testCancelReservation_Success() {
         reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
-        boolean result = reservationService.cancelReservation("Ayberk", "Room101");
+        boolean result = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
         assertTrue(result, "Rezervasyon iptal edilebilmeli.");
     }
 
     @Test
     void testCancelReservation_Fail_NotExists() {
-        boolean result = reservationService.cancelReservation("Ali", "Room101");
+        boolean result = reservationService.cancelReservation("Ali", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
         assertFalse(result, "Var olmayan rezervasyon iptal edilememeli.");
     }
 
