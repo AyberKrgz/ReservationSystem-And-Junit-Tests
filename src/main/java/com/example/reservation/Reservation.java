@@ -6,25 +6,17 @@ import java.util.Objects;
 public class Reservation {
     private String customerName;
     private LocalDateTime dateTime;
-    private String tableId; // veya oda numarası
+    private String roomNumber;
 
-    public Reservation(String customerName, LocalDateTime dateTime, String tableId) {
+    public Reservation(String customerName, LocalDateTime dateTime, String roomNumber) {
         this.customerName = customerName;
         this.dateTime = dateTime;
-        this.tableId = tableId;
+        this.roomNumber = roomNumber;
     }
 
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public String getTableId() {
-        return tableId;
-    }
+    public String getCustomerName() { return customerName; }
+    public LocalDateTime getDateTime() { return dateTime; }
+    public String getroomNumber() { return roomNumber; }
 
     @Override
     public boolean equals(Object o) {
@@ -33,20 +25,20 @@ public class Reservation {
         Reservation that = (Reservation) o;
         return Objects.equals(customerName, that.customerName) &&
                 Objects.equals(dateTime, that.dateTime) &&
-                Objects.equals(tableId, that.tableId);
+                Objects.equals(roomNumber, that.roomNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerName, dateTime, tableId);
+        return Objects.hash(customerName, dateTime, roomNumber);
     }
 
     @Override
     public String toString() {
-        return "Reservation{" +
+        return ("Reservation {" +
                 "customerName='" + customerName + '\'' +
                 ", dateTime=" + dateTime +
-                ", tableId='" + tableId + '\'' +
-                '}';
+                ", roomNumber='" + roomNumber + '\'' +
+                "}");
     }
 }

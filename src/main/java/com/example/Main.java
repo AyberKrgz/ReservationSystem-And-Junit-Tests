@@ -8,22 +8,27 @@ public class Main {
     public static void main(String[] args) {
         ReservationService reservationService = new ReservationService();
 
-        // Yeni rezervasyon ekleme
-        boolean added = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Table1");
-        System.out.println("Rezervasyon eklendi mi? " + added);
+        //Adding new reservations
+        boolean added = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
+        System.out.println("Rezervasyon eklendi mi? ");
+        System.out.println(added);
 
-        // Aynı zaman ve masaya çakışan rezervasyon ekleme
-        boolean conflict = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "Table1");
-        System.out.println("Çakışan rezervasyon eklendi mi? " + conflict);
+        //Trying to add a conflicting reservation
+        boolean conflict = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
+        System.out.println("Çakışan rezervasyon eklendi mi? ");
+        System.out.println(conflict);
 
-        // Rezervasyonları listeleme
-        System.out.println("Mevcut rezervasyonlar: " + reservationService.getAllReservations());
+        //Listing reservations
+        System.out.println("Mevcut rezervasyonlar: ");
+        System.out.println(reservationService.getAllReservations());
 
-        // Rezervasyon iptali
-        boolean cancelled = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "Table1");
-        System.out.println("Rezervasyon iptal edildi mi? " + cancelled);
+        //Canceling reservation
+        boolean cancelled = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), "07");
+        System.out.println("Rezervasyon iptal edildi mi? ");
+        System.out.println(cancelled);
 
-        // Son durumda rezervasyonları listeleme
-        System.out.println("Son rezervasyon listesi: " + reservationService.getAllReservations());
+        //Listing reservations again
+        System.out.println("Son rezervasyon listesi: ");
+        System.out.println(reservationService.getAllReservations());
     }
 }
