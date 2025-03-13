@@ -10,23 +10,24 @@ public class ReservationService {
     public boolean addReservation(String customerName, LocalDateTime dateTime, String roomNumber) {
         Reservation newReservation = new Reservation(customerName, dateTime, roomNumber);
 
-        // Çakışma kontrolü
+        //Checking conflict
         for (Reservation res : reservations) {
-            if (res.getroomNumber().equals(roomNumber) && res.getDateTime().equals(dateTime)) {
-                return false; // Çakışan rezervasyon var
+            if (res.getroomNumber().equals(roomNumber) && res.getDateTime().equals(dateTime)) {     //Checking the conflict
+                return false; //Conflict. Not added to the list.
             }
         }
-        reservations.add(newReservation);   // Çakışma yok. rezervasyon ekle.
+        reservations.add(newReservation);   //No conflict. Add the reservation
         return true;
     }
 
+    //Remove the reservation from the list.
     public boolean cancelReservation(String customerName, LocalDateTime dateTime, String roomNumber) {
         return reservations.removeIf(res -> res.getCustomerName().equals(customerName) &&
-                res.getDateTime().equals(dateTime) &&
-                res.getroomNumber().equals(roomNumber));
+                                            res.getDateTime().equals(dateTime) &&
+                                            res.getroomNumber().equals(roomNumber));
+
     }
 
-    public List<Reservation> getAllReservations() {
-        return new ArrayList<>(reservations);
-    }
+    public List<Reservation> getAllReservations() { return new ArrayList<>(reservations); }
+
 }

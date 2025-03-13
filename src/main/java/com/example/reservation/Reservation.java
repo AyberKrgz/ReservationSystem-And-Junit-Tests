@@ -14,6 +14,7 @@ public class Reservation {
         this.roomNumber = roomNumber;
     }
 
+    //Return functions
     public String getCustomerName() { return customerName; }
     public LocalDateTime getDateTime() { return dateTime; }
     public String getroomNumber() { return roomNumber; }
@@ -28,11 +29,13 @@ public class Reservation {
                 Objects.equals(roomNumber, that.roomNumber);
     }
 
+    //Not used yet. Might be useful in the future.
     @Override
     public int hashCode() {
         return Objects.hash(customerName, dateTime, roomNumber);
     }
 
+    //toString func to print reservations as we want.
     @Override
     public String toString() {
         return ("Reservation {" +
