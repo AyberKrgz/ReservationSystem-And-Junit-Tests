@@ -17,7 +17,7 @@ public class Reservation {
     //Return functions
     public String getCustomerName() { return customerName; }
     public LocalDateTime getDateTime() { return dateTime; }
-    public String getroomNumber() { return roomNumber; }
+    public String getRoomNumber() { return roomNumber; }
 
     //toString func to print reservations as we want.
     @Override

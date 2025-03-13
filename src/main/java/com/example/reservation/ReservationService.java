@@ -12,10 +12,16 @@ public class ReservationService {
 
         //Checking conflict
         for (Reservation res : reservations) {
-            if (res.getroomNumber().equals(roomNumber) && res.getDateTime().equals(dateTime)) {     //Checking the conflict
+            if (res.getRoomNumber().equals(roomNumber) && res.getDateTime().equals(dateTime)) {     //Checking the conflict
                 return false; //Conflict. Not added to the list.
             }
         }
+
+        //Reservations for past dates cannot be made.
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            return false;
+        }
+
         reservations.add(newReservation);   //No conflict. Add the reservation
         return true;
     }
@@ -24,13 +30,13 @@ public class ReservationService {
     public boolean cancelReservation(String customerName, LocalDateTime dateTime, String roomNumber) {
         return reservations.removeIf(res -> res.getCustomerName().equals(customerName) &&
                                             res.getDateTime().equals(dateTime) &&
-                                            res.getroomNumber().equals(roomNumber));
+                                            res.getRoomNumber().equals(roomNumber));
 
     }
 
     public Reservation findReservation(String name, String room) {
         for (Reservation reservation : reservations) {
-            if (reservation.getCustomerName().equals(name) && reservation.getroomNumber().equals(room)) {
+            if (reservation.getCustomerName().equals(name) && reservation.getRoomNumber().equals(room)) {
                 return reservation;
             }
         }

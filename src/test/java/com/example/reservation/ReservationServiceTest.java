@@ -138,6 +138,6 @@ public class ReservationServiceTest {
         reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 5, 20, 14, 0), "Room101");
         Reservation reservation = reservationService.findReservation("Ayberk", "Room101");
 
-        assertEquals("Room101", reservation.getroomNumber(), "Rezervasyonun yapıldığı oda doğru olmalı.");
+        assertEquals("Room101", reservation.getRoomNumber(), "Rezervasyonun yapıldığı oda doğru olmalı.");
     }
 }
