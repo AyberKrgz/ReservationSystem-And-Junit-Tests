@@ -7,7 +7,7 @@ import java.util.List;
 public class ReservationService {
     private final List<Reservation> reservations = new ArrayList<>();       //List of reservations
 
-    public boolean addReservation(String customerName, LocalDateTime dateTime, String roomNumber) {
+    public boolean addReservation(String customerName, LocalDateTime dateTime, Integer roomNumber) {
 
         Reservation newReservation = new Reservation(customerName, dateTime, roomNumber);
 
@@ -19,6 +19,11 @@ public class ReservationService {
         //Reservations for past dates cannot be made.
         if (dateTime.isBefore(LocalDateTime.now())) {
             return false;
+        }
+
+        //Customers can only select room numbers between 101-199 (101 and 199 included).
+        if (roomNumber<100 || roomNumber>199){
+            throw new IllegalArgumentException("Room number must be selected between 101-199 (101 and 199 included).");
         }
 
         //Checking conflict
@@ -34,14 +39,14 @@ public class ReservationService {
     }
 
     //Remove the reservation from the list.
-    public boolean cancelReservation(String customerName, LocalDateTime dateTime, String roomNumber) {
+    public boolean cancelReservation(String customerName, LocalDateTime dateTime, Integer roomNumber) {
         return reservations.removeIf(res -> res.getCustomerName().equals(customerName) &&
                                             res.getDateTime().equals(dateTime) &&
                                             res.getRoomNumber().equals(roomNumber));
 
     }
 
-    public Reservation findReservation(String name, String room) {
+    public Reservation findReservation(String name, Integer room) {
         for (Reservation reservation : reservations) {
             if (reservation.getCustomerName().equals(name) && reservation.getRoomNumber().equals(room)) {
                 return reservation;

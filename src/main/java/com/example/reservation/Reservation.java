@@ -6,9 +6,9 @@ import java.util.Objects;
 public class Reservation {
     private String customerName;
     private LocalDateTime dateTime;
-    private String roomNumber;
+    private Integer roomNumber;
 
-    public Reservation(String customerName, LocalDateTime dateTime, String roomNumber) {
+    public Reservation(String customerName, LocalDateTime dateTime, Integer roomNumber) {
         this.customerName = customerName;
         this.dateTime = dateTime;
         this.roomNumber = roomNumber;
@@ -17,7 +17,7 @@ public class Reservation {
     //Return functions
     public String getCustomerName() { return customerName; }
     public LocalDateTime getDateTime() { return dateTime; }
-    public String getRoomNumber() { return roomNumber; }
+    public Integer getRoomNumber() { return roomNumber; }
 
     //toString func to print reservations as we want.
     @Override
