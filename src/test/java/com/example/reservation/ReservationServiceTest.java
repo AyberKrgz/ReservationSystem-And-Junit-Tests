@@ -18,12 +18,6 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void testAddReservation_Fail_PastDate() {
-        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2023, 3, 10), 101, 2);
-        assertFalse(result, "Reservations cannot be made for past dates.");
-    }
-
-    @Test
     void testAddReservation_Conflict() {
         reservationService.addReservation("Ali", LocalDate.of(2025, 5, 20), 101,2);
         boolean result = reservationService.addReservation("Veli", LocalDate.of(2025, 5, 20), 101, 2);
@@ -127,6 +121,20 @@ public class ReservationServiceTest {
     }
 
     @Test
+    void testAddReservation_Fail_PastDate() {
+        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2023, 3, 10), 101, 2);
+        assertFalse(result, "Reservations cannot be made for past dates.");
+    }
+
+    @Test
+    void testAddReservation_Fail_FarDate() {
+        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2026, 3, 20), 101, 2);
+        boolean result2 = reservationService.addReservation("Ayberk", LocalDate.of(2026, 1, 20), 101, 2);
+        assertFalse(result, "Reservations can be made up to 1 year later.");
+        assertTrue(result2, "Next year reservations can be made if it's not 1 year later.");
+    }
+
+    @Test
     void testInvalidDateFormatThrowsException() {
         Exception exception = assertThrows(DateTimeException.class, () -> {
             reservationService.addReservation("Ayberk", LocalDate.of(2025, 2, 30), 101, 2);
@@ -143,16 +151,15 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void testAddReservation_Fail_FarDate() {
-        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2026, 3, 20), 101, 2);
-        boolean result2 = reservationService.addReservation("Ayberk", LocalDate.of(2026, 1, 20), 101, 2);
-        assertFalse(result, "Reservations can be made up to 1 year later.");
-        assertTrue(result2, "Next year reservations can be made if it's not 1 year later.");
+    void testInvalidGuestCountThrowsException(){
+        Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+           reservationService.addReservation("Ayberk", LocalDate.of(2025, 5, 20), 101, 0);
+        });
+        Exception exception2 = assertThrows(IndexOutOfBoundsException.class, () -> {
+            reservationService.addReservation("Ayberk", LocalDate.of(2025, 5, 20), 101, 5);
+        });
+        assertEquals("Guest count must be between 1-4. (1 and 4 included)", exception.getMessage());
+        assertEquals("Guest count must be between 1-4. (1 and 4 included)", exception2.getMessage());
     }
-
-    //odaya kisi sayisi ekle ve onu test et!
-    //kisi sayisi 0 olamaz. max 4 olabilir.
-
-    //Boolean cift kisilik yatak parametresi eklenebilir.
 
 }

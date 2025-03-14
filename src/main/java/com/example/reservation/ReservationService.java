@@ -31,6 +31,11 @@ public class ReservationService {
             throw new IndexOutOfBoundsException("Room number must be selected between 101-199 (101 and 199 included).");
         }
 
+        //Guest count must be between 1-4. (1 and 4 included)
+        if(guestCount<1 || guestCount>4){
+            throw new IndexOutOfBoundsException("Guest count must be between 1-4. (1 and 4 included)");
+        }
+
         //Checking conflict
         for (Reservation res : reservations) {
             if (res.getRoomNumber().equals(roomNumber) && res.getDateTime().equals(date)) {     //Checking the conflict
