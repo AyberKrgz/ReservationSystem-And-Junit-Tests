@@ -1,23 +1,23 @@
 package com.example.reservation;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationService {
     private final List<Reservation> reservations = new ArrayList<>();       //List of reservations
 
-    public boolean addReservation(String customerName, LocalDateTime dateTime, Integer roomNumber) {
+    public boolean addReservation(String customerName, LocalDate date, Integer roomNumber) {
 
-        Reservation newReservation = new Reservation(customerName, dateTime, roomNumber);
+        Reservation newReservation = new Reservation(customerName, date, roomNumber);
 
         //Checking if all fields are filled.
-        if (customerName == null || dateTime == null || roomNumber == null) {
+        if (customerName == null || date == null || roomNumber == null) {
             throw new IllegalArgumentException("Name, Date-Time and/or Room Number fields must be filled.");
         }
 
         //Reservations for past dates cannot be made.
-        if (dateTime.isBefore(LocalDateTime.now())) {
+        if (date.isBefore(LocalDate.now())) {
             return false;
         }
 
@@ -28,7 +28,7 @@ public class ReservationService {
 
         //Checking conflict
         for (Reservation res : reservations) {
-            if (res.getRoomNumber().equals(roomNumber) && res.getDateTime().equals(dateTime)) {     //Checking the conflict
+            if (res.getRoomNumber().equals(roomNumber) && res.getDateTime().equals(date)) {     //Checking the conflict
                 return false; //Conflict. Not added to the list.
             }
         }
@@ -39,9 +39,9 @@ public class ReservationService {
     }
 
     //Remove the reservation from the list.
-    public boolean cancelReservation(String customerName, LocalDateTime dateTime, Integer roomNumber) {
+    public boolean cancelReservation(String customerName, LocalDate date, Integer roomNumber) {
         return reservations.removeIf(res -> res.getCustomerName().equals(customerName) &&
-                                            res.getDateTime().equals(dateTime) &&
+                                            res.getDateTime().equals(date) &&
                                             res.getRoomNumber().equals(roomNumber));
 
     }

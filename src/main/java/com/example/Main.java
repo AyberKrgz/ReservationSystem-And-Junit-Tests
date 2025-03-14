@@ -2,19 +2,19 @@ package com.example;
 
 import com.example.reservation.ReservationService;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
         ReservationService reservationService = new ReservationService();
 
         //Adding new reservations
-        boolean added = reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), 101);
+        boolean added = reservationService.addReservation("Ayberk", LocalDate.of(2025, 3, 15), 101);
         System.out.println("Were reservations added successfully? ");
         System.out.println(added);
 
         //Trying to add a conflicting reservation
-        boolean conflict = reservationService.addReservation("Ali", LocalDateTime.of(2025, 3, 15, 19, 0), 101);
+        boolean conflict = reservationService.addReservation("Ali", LocalDate.of(2025, 3, 15), 101);
         System.out.println("Were conflicting reservations added? ");
         System.out.println(conflict);
 
@@ -23,7 +23,7 @@ public class Main {
         System.out.println(reservationService.getAllReservations());
 
         //Canceling reservation
-        boolean cancelled = reservationService.cancelReservation("Ayberk", LocalDateTime.of(2025, 3, 15, 19, 0), 101);
+        boolean cancelled = reservationService.cancelReservation("Ayberk", LocalDate.of(2025, 3, 15), 101);
         System.out.println("Were reservations canceled? ");
         System.out.println(cancelled);
 

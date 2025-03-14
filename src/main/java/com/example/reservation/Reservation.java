@@ -1,22 +1,22 @@
 package com.example.reservation;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Reservation {
     private String customerName;
-    private LocalDateTime dateTime;
+    private LocalDate date;
     private Integer roomNumber;
 
-    public Reservation(String customerName, LocalDateTime dateTime, Integer roomNumber) {
+    public Reservation(String customerName, LocalDate date, Integer roomNumber) {
         this.customerName = customerName;
-        this.dateTime = dateTime;
+        this.date = date;
         this.roomNumber = roomNumber;
     }
 
     //Return functions
     public String getCustomerName() { return customerName; }
-    public LocalDateTime getDateTime() { return dateTime; }
+    public LocalDate getDateTime() { return date; }
     public Integer getRoomNumber() { return roomNumber; }
 
     //toString func to print reservations as we want.
@@ -24,7 +24,7 @@ public class Reservation {
     public String toString() {
         return ("Reservation {" +
                 "customerName='" + customerName + '\'' +
-                ", dateTime=" + dateTime +
+                ", dateTime=" + date +
                 ", roomNumber='" + roomNumber + '\'' +
                 "}");
     }
