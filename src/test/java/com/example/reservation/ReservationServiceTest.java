@@ -13,7 +13,7 @@ public class ReservationServiceTest {
 
     @Test
     void testAddReservation_Success() {
-        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2025, 5, 20), 101);
+        boolean result = reservationService.addReservation("Jaddy", LocalDate.of(2025, 5, 20), 101);
         assertTrue(result, "The reservation must be successful.");
     }
 
@@ -148,5 +148,7 @@ public class ReservationServiceTest {
 
     //odaya kisi sayisi ekle ve onu test et!
     //kisi sayisi 0 olamaz. max 4 olabilir.
+
+    //Boolean cift kisilik yatak parametresi eklenebilir.
 
 }
