@@ -1,6 +1,10 @@
 package com.example.reservation;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -15,6 +19,25 @@ public class ReservationServiceTest {
     void testAddReservation_Success() {
         boolean result = reservationService.addReservation("Jaddy", LocalDate.of(2025, 5, 20), 101, 2);
         assertTrue(result, "The reservation must be successful.");
+    }
+
+    @RepeatedTest(5)
+    void testRepeatableSameUserDifferentDates() {
+        int dayOffset = (int) (Math.random() * 30) + 1;
+        LocalDate date = LocalDate.now().plusDays(dayOffset);
+        boolean result = reservationService.addReservation("Ali", date, 101, 2);
+        assertTrue(result, "Same user should be able to book the same room on different dates.");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Ali, 2025-05-20, 101, 2",
+            "Mehmet, 2025-06-15, 102, 3",
+            "Ayberk, 2025-03-20, 103, 4"
+    })
+    void testAddReservationParameterized(String name, String date, int room, int guests) {
+        boolean result = reservationService.addReservation(name, LocalDate.parse(date), room, guests);
+        assertTrue(result, "Parameterized test should allow reservation creation.");
     }
 
     @Test
