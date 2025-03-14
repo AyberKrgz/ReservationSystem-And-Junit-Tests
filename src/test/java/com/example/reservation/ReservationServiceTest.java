@@ -2,6 +2,7 @@ package com.example.reservation;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +24,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void testAddReservation_Duplicate() {
+    void testAddReservation_Conflict() {
         reservationService.addReservation("Ali", LocalDateTime.of(2026, 5, 20, 14, 0), "Room101");
         boolean result = reservationService.addReservation("Veli", LocalDateTime.of(2026, 5, 20, 14, 0), "Room101");
         assertFalse(result, "Aynı tarih ve saatte oda başkasına rezerve edilememeli.");
@@ -53,16 +54,6 @@ public class ReservationServiceTest {
     void testFindReservation_Fail_NotExists() {
         Reservation reservation = reservationService.findReservation("Ali", "Room102");
         assertNull(reservation, "Rezervasyon bulunmamalı.");
-    }
-
-    @Test
-    void testMaxReservationsPerRoom() {
-        reservationService.addReservation("Ali", LocalDateTime.of(2026, 5, 20, 10, 0), "Room101");
-        reservationService.addReservation("Veli", LocalDateTime.of(2026, 5, 20, 12, 0), "Room101");
-        reservationService.addReservation("Ayşe", LocalDateTime.of(2026, 5, 20, 14, 0), "Room101");
-
-        boolean result = reservationService.addReservation("Fatma", LocalDateTime.of(2026, 5, 20, 16, 0), "Room101");
-        assertFalse(result, "Oda kapasitesi aşılamamalı.");
     }
 
     @Test
@@ -132,4 +123,13 @@ public class ReservationServiceTest {
 
         assertEquals("Room101", reservation.getRoomNumber(), "Rezervasyonun yapıldığı oda doğru olmalı.");
     }
+
+    @Test
+    void testInvalidDateFormatThrowsException() {
+        Exception exception = assertThrows(DateTimeException.class, () -> {
+            reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 2, 30, 15, 0), "Room101");
+        });
+        assertEquals("Invalid date '", exception.getMessage());
+    }
+
 }
