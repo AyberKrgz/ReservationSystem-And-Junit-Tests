@@ -8,7 +8,18 @@ public class ReservationService {
     private final List<Reservation> reservations = new ArrayList<>();       //List of reservations
 
     public boolean addReservation(String customerName, LocalDateTime dateTime, String roomNumber) {
+
         Reservation newReservation = new Reservation(customerName, dateTime, roomNumber);
+
+        //Checking if all fields are filled.
+        if (customerName == null || dateTime == null || roomNumber == null) {
+            throw new IllegalArgumentException("Name, Date-Time and/or Room Number fields must be filled.");
+        }
+
+        //Reservations for past dates cannot be made.
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            return false;
+        }
 
         //Checking conflict
         for (Reservation res : reservations) {
@@ -17,13 +28,9 @@ public class ReservationService {
             }
         }
 
-        //Reservations for past dates cannot be made.
-        if (dateTime.isBefore(LocalDateTime.now())) {
-            return false;
-        }
-
         reservations.add(newReservation);   //No conflict. Add the reservation
         return true;
+
     }
 
     //Remove the reservation from the list.
@@ -40,7 +47,7 @@ public class ReservationService {
                 return reservation;
             }
         }
-        return null; // Rezervasyon bulunamazsa null döndür.
+        return null; //If no reservations found return null.
     }
 
 
