@@ -137,18 +137,16 @@ public class ReservationServiceTest {
     @Test
     void testInvalidRoomNumberThrowsException(){
         Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
-            reservationService.addReservation("Ayberk", LocalDate.of(2025, 5, 20), 205);
+            reservationService.addReservation("Ayberk", LocalDate.of(2025, 5, 20), 200);
         });
         assertEquals("Room number must be selected between 101-199 (101 and 199 included).", exception.getMessage());
     }
 
-    //NEED 2 MORE TESTS!!!!
-    //NEED 2 MORE TESTS!!!!
 
-    //NEED 2 MORE TESTS!!!!
-    //NEED 2 MORE TESTS!!!!
-    //NEED 2 MORE TESTS!!!!
-    //cok ileri tarihli rezervasyon alınmasını engelle
-    //
+    //cok ileri tarihli rezervasyon alınmasını engelle.
+    //max 1 yil sonrasina rez alinabilir.
+
+    //odaya kisi sayisi ekle ve onu test et!
+    //kisi sayisi 0 olamaz. max 4 olabilir.
 
 }
