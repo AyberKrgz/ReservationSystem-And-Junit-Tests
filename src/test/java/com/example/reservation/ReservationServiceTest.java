@@ -133,7 +133,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void testInvalidRoomNumber(){
+    void testInvalidRoomNumberThrowsException(){
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             reservationService.addReservation("Ayberk", LocalDateTime.of(2026, 5, 20, 14, 0), 205);
         });
