@@ -15,46 +15,39 @@
     </properties>
 
     <dependencies>
-        <!-- JUnit 5 -->
+        <!-- JUnit 5 API -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.3</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit 5 Engine (gereklidir) -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.3</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Mockito (Gelecekte servisi mocklamak için) -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
-        </dependency>
-
+        <!-- JUnit Platform Suite API -->
         <dependency>
             <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-            <version>1.11.0-M1</version>
+            <artifactId>junit-platform-suite-api</artifactId>
+            <version>1.9.2</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- Parametreli testler için -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
-
-
-
     </dependencies>
+
 
 
 

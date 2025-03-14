@@ -136,10 +136,6 @@ class ReservationServiceValidationTests{
         assertNull(reservation, "There should be no reservation.");
     }
 
-
-
-
-
     @ParameterizedTest
     @CsvSource({
             "Ali, 2025-05-20, 101, 2",
@@ -150,7 +146,6 @@ class ReservationServiceValidationTests{
         boolean result = reservationService.addReservation(name, LocalDate.parse(date), room, guests);
         assertTrue(result, "Parameterized test should allow reservation creation.");
     }
-
 
     @Test
     void testAddReservation_ThrowsException_WhenDateNull() {
@@ -175,7 +170,6 @@ class ReservationServiceValidationTests{
         });
         assertEquals("Name, Date-Time, Room Number and/or Guest Count fields must be filled.", exception.getMessage());
     }
-
 
     @Test
     void testInvalidDateFormatThrowsException() {
@@ -204,8 +198,5 @@ class ReservationServiceValidationTests{
         assertEquals("Guest count must be between 1-4. (1 and 4 included)", exception.getMessage());
         assertEquals("Guest count must be between 1-4. (1 and 4 included)", exception2.getMessage());
     }
-
-
-
 
 }
