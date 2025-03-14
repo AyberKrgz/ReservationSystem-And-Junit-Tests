@@ -129,7 +129,7 @@ public class ReservationServiceTest {
         Exception exception = assertThrows(DateTimeException.class, () -> {
             reservationService.addReservation("Ayberk", LocalDateTime.of(2025, 2, 30, 15, 0), "Room101");
         });
-        assertEquals("Invalid date '", exception.getMessage());
+        assertEquals("Invalid date 'FEBRUARY 30'", exception.getMessage());
     }
 
 }
