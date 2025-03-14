@@ -7,13 +7,13 @@ import java.util.List;
 public class ReservationService {
     private final List<Reservation> reservations = new ArrayList<>();       //List of reservations
 
-    public boolean addReservation(String customerName, LocalDate date, Integer roomNumber) {
+    public boolean addReservation(String customerName, LocalDate date, Integer roomNumber, Integer guestCount) {
 
-        Reservation newReservation = new Reservation(customerName, date, roomNumber);
+        Reservation newReservation = new Reservation(customerName, date, roomNumber, guestCount);
 
         //Checking if all fields are filled.
-        if (customerName == null || date == null || roomNumber == null) {
-            throw new IllegalArgumentException("Name, Date-Time and/or Room Number fields must be filled.");
+        if (customerName == null || date == null || roomNumber == null || guestCount == null) {
+            throw new IllegalArgumentException("Name, Date-Time, Room Number and/or Guest Count fields must be filled.");
         }
 
         //Reservations for past dates cannot be made.
@@ -44,10 +44,11 @@ public class ReservationService {
     }
 
     //Remove the reservation from the list.
-    public boolean cancelReservation(String customerName, LocalDate date, Integer roomNumber) {
+    public boolean cancelReservation(String customerName, LocalDate date, Integer roomNumber, Integer guestCount) {
         return reservations.removeIf(res -> res.getCustomerName().equals(customerName) &&
                                             res.getDateTime().equals(date) &&
-                                            res.getRoomNumber().equals(roomNumber));
+                                            res.getRoomNumber().equals(roomNumber) &&
+                                            res.getGuestCount().equals(guestCount));
 
     }
 
