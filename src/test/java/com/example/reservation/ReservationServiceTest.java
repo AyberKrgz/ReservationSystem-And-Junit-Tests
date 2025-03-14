@@ -134,7 +134,7 @@ public class ReservationServiceTest {
 
     @Test
     void testInvalidRoomNumberThrowsException(){
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
             reservationService.addReservation("Ayberk", LocalDateTime.of(2026, 5, 20, 14, 0), 205);
         });
         assertEquals("Room number must be selected between 101-199 (101 and 199 included).", exception.getMessage());
@@ -146,5 +146,7 @@ public class ReservationServiceTest {
     //NEED 2 MORE TESTS!!!!
     //NEED 2 MORE TESTS!!!!
     //NEED 2 MORE TESTS!!!!
+    //cok ileri tarihli rezervasyon alınmasını engelle
+    //
 
 }
