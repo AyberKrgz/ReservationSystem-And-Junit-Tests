@@ -27,7 +27,7 @@ public class ReservationService {
         }
 
         //Customers can only select room numbers between 101-199 (101 and 199 included).
-        if (roomNumber<100 || roomNumber>199){
+        if (roomNumber<101 || roomNumber>199){
             throw new IndexOutOfBoundsException("Room number must be selected between 101-199 (101 and 199 included).");
         }
 
