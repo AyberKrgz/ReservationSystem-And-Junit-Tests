@@ -111,7 +111,7 @@ class ReservationServiceValidationTests{
 
     @Test
     void testAddReservation_Fail_FarDate() {
-        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2026, 3, 20), 101, 2);
+        boolean result = reservationService.addReservation("Ayberk", LocalDate.of(2026, 4, 20), 101, 2);
         boolean result2 = reservationService.addReservation("Ayberk", LocalDate.of(2026, 1, 20), 101, 2);
         assertFalse(result, "Reservations can be made up to 1 year later.");
         assertTrue(result2, "Next year reservations can be made if it's not 1 year later.");
@@ -140,7 +140,7 @@ class ReservationServiceValidationTests{
     @CsvSource({
             "Ali, 2025-05-20, 101, 2",
             "Mehmet, 2025-06-15, 102, 3",
-            "Ayberk, 2025-03-20, 103, 4"
+            "Ayberk, 2025-05-25, 103, 4"
     })
     void testAddReservationParameterized(String name, String date, int room, int guests) {
         boolean result = reservationService.addReservation(name, LocalDate.parse(date), room, guests);
