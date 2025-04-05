@@ -33,8 +33,8 @@ public class MutationTests {
             return false;
         }
 
-        // MUTATION: Changed roomNumber<100 to roomNumber<=100
-        if (roomNumber<=100 || roomNumber>199){
+        // MUTATION: Changed roomNumber<101 to roomNumber<=101
+        if (roomNumber<=101 || roomNumber>199){
             throw new IndexOutOfBoundsException("Room number must be selected between 101-199 (101 and 199 included).");
         }
 
