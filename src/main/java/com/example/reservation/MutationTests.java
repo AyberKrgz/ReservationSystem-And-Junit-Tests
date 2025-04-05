@@ -16,7 +16,7 @@ public class MutationTests {
 
     /**
      * MUTANT 1: Condition Boundary Mutation
-     * Change: roomNumber<100 -> roomNumber<=100
+     * Change: roomNumber<101 -> roomNumber<=101
      */
     public boolean mutant1_RoomNumberBoundary(String customerName, LocalDate date, Integer roomNumber, Integer guestCount) {
         Reservation newReservation = new Reservation(customerName, date, roomNumber, guestCount);
