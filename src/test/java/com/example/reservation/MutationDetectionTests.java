@@ -169,6 +169,7 @@ public class MutationDetectionTests {
         // First, add a reservation for a different room but same date
         LocalDate date = LocalDate.now().plusDays(30);
         originalService.addReservation("John", date, 150, 2);
+        mutationTests.mutant9_MethodCallRemoval("John", date, 150, 2);
 
         // In the original service, we should be able to add a reservation for a different room
         boolean originalResult = originalService.addReservation("Jane", date, 151, 2);
