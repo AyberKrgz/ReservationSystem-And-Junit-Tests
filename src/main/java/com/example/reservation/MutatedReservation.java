@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MutationTests {
+public class MutatedReservation {
 
     // Reference to original class for testing
     private ReservationService originalService = new ReservationService();
