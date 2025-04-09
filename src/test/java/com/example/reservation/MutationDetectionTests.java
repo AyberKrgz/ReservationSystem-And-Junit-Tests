@@ -11,17 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class to detect mutations in ReservationService's addReservation method
- * These tests are designed to identify (kill) the mutations in MutationTests class
+ * These tests are designed to identify (kill) the mutations in MutatedReservation class
  */
 public class MutationDetectionTests {
 
     private ReservationService originalService;
-    private MutationTests mutationTests;
+    private MutatedReservation mutationTests;
 
     @BeforeEach
     void setUp() {
         originalService = new ReservationService();
-        mutationTests = new MutationTests();
+        mutationTests = new MutatedReservation();
     }
 
     @Test
@@ -108,11 +108,8 @@ public class MutationDetectionTests {
         boolean mutantResult = mutationTests.mutant5_RemoveMethodCall("Jane", LocalDate.now().plusDays(30), 151, 2);
         assertTrue(mutantResult, "Mutant should return true");
 
-        // We can't directly check mutationTests' reservations list, but in a real scenario,
-        // if we were running PIT against our ReservationService, we would check:
-
-        // Reservation found = originalService.findReservation("Jane", 151);
-        // assertNotNull(found, "Should be able to find the added reservation");
+        Reservation found = originalService.findReservation("Jane", 151);
+        assertNotNull(found, "Should be able to find the added reservation");
     }
 
     @Test
@@ -169,6 +166,7 @@ public class MutationDetectionTests {
         // First, add a reservation for a different room but same date
         LocalDate date = LocalDate.now().plusDays(30);
         originalService.addReservation("John", date, 150, 2);
+        mutationTests.mutant9_MethodCallRemoval("John", date, 150, 2);
 
         // In the original service, we should be able to add a reservation for a different room
         boolean originalResult = originalService.addReservation("Jane", date, 151, 2);
