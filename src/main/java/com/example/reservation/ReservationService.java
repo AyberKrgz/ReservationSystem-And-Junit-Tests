@@ -7,6 +7,11 @@ import java.util.List;
 public class ReservationService {
     private final List<Reservation> reservations = new ArrayList<>();       //List of reservations
 
+    private final RoomValidatorService validatorService = new RoomValidatorService();
+    private final ReservationConflictChecker conflictChecker = new ReservationConflictChecker();
+
+
+    //Add a reservation to the list.
     public boolean addReservation(String customerName, LocalDate date, Integer roomNumber, Integer guestCount) {
 
         Reservation newReservation = new Reservation(customerName, date, roomNumber, guestCount);
@@ -17,31 +22,24 @@ public class ReservationService {
         }
 
         //Reservations for past dates cannot be made.
-        if (date.isBefore(LocalDate.now())) {
-            return false;
-        }
+        if (date.isBefore(LocalDate.now())) {return false;}
 
         //Reservations can be made up to 1 year later.
-        if(date.minusYears(1).isAfter(LocalDate.now())){
-            return false;
-        }
+        if(date.minusYears(1).isAfter(LocalDate.now())) {return false;}
 
         //Customers can only select room numbers between 101-199 (101 and 199 included).
-        if (roomNumber<101 || roomNumber>199){
+        if (!validatorService.isValidRoomNumber(roomNumber)){
             throw new IndexOutOfBoundsException("Room number must be selected between 101-199 (101 and 199 included).");
         }
 
         //Guest count must be between 1-4. (1 and 4 included)
-        if(guestCount<1 || guestCount>4){
+        if(!validatorService.isValidGuestCount(guestCount)){
             throw new IndexOutOfBoundsException("Guest count must be between 1-4. (1 and 4 included)");
         }
 
         //Checking conflict
-        for (Reservation res : reservations) {
-            if (res.getRoomNumber().equals(roomNumber) && res.getDateTime().equals(date)) {     //Checking the conflict
-                return false; //Conflict. Not added to the list.
-            }
-        }
+        if (conflictChecker.hasConflict(reservations, roomNumber, date)) {return false;}
+
 
         reservations.add(newReservation);   //No conflict. Add the reservation
         return true;
@@ -57,6 +55,7 @@ public class ReservationService {
 
     }
 
+    //Search and find a reservation from the list.
     public Reservation findReservation(String name, Integer room) {
         for (Reservation reservation : reservations) {
             if (reservation.getCustomerName().equals(name) && reservation.getRoomNumber().equals(room)) {
@@ -66,7 +65,9 @@ public class ReservationService {
         return null; //If no reservations found return null.
     }
 
-
-    public List<Reservation> getAllReservations() { return new ArrayList<>(reservations); }
+    //List and show all the reservations in the list.
+    public List<Reservation> getAllReservations() {
+        return new ArrayList<>(reservations);
+    }
 
 }
